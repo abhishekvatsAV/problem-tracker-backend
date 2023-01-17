@@ -1,6 +1,11 @@
 const express = require("express");
-const router = express.Router();
 const problemsController = require("../controllers/problemsController");
+const requireAuth = require("../middleware/requireAuth");
+
+const router = express.Router();
+
+// require auth for all problems routes
+router.use(requireAuth);
 
 // /problems + ...
 router.post("/create", problemsController.problemCreate);

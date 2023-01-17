@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const problemsRoutes = require("./routes/problemsRoutes");
+const userRoutes = require("./routes/user");
 const cors = require("cors");
 
 //express app
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 });
 
 // TODO: add routes here
+app.use("/user", userRoutes);
 app.use("/problems", problemsRoutes);
 
 // routes

@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 
 const findByDate = async (req, res) => {
   const date = req.query.date;
+  const user_id = req.user._id;
   // console.log("date in Backend", req.query);
   try {
-    const problems = await Problems.find({ date: date });
+    const problems = await Problems.find({ date: date, user_id });
     res.status(200).json(problems);
   } catch (err) {
     res.status(400).json({ err: err.message });
@@ -17,6 +18,7 @@ const problemCreate = async (req, res) => {
   console.log("reqBody : ", req.body);
 
   try {
+    const user_id = req.user._id;
     const problem = await Problems.create({
       date,
       name,
@@ -25,6 +27,7 @@ const problemCreate = async (req, res) => {
       difficulty,
       topic,
       helpUsed,
+      user_id,
     });
     if (problem) {
       console.log("first");
@@ -39,19 +42,23 @@ const problemCreate = async (req, res) => {
 };
 
 const getAllProblems = async (req, res) => {
-  const problems = await Problems.find({}).sort({ createdAt: -1 });
+  const user_id = req.user._id;
+  const problems = await Problems.find({ user_id }).sort({ createdAt: -1 });
   res.status(200).json(problems);
 };
 
 const helpProblems = async (req, res) => {
-  const problems = await Problems.find({ helpUsed: true }).sort({
+  const user_id = req.user._id;
+  const problems = await Problems.find({ helpUsed: true, user_id }).sort({
     createdAt: -1,
   });
   res.status(200).json(problems);
 };
 
 const notHelpProblems = async (req, res) => {
-  const problems = await Problems.find({ helpUsed: false }).sort({
+  const user_id = req.user._id;
+
+  const problems = await Problems.find({ helpUsed: false, user_id }).sort({
     createdAt: -1,
   });
   res.status(200).json(problems);
@@ -104,7 +111,8 @@ const getYearData = async (req, res) => {
     let dateStr = date.toLocaleDateString();
     // console.log("first : ", date, dateStr);
     try {
-      const problems = await Problems.find({ date: dateStr });
+      const user_id = req.user._id;
+      const problems = await Problems.find({ date: dateStr, user_id });
       let dateParts = dateStr.split("/");
       dateStr = [dateParts[1], dateParts[0], dateParts[2]].join("/");
       let storeDate = new Date(dateStr);
@@ -119,21 +127,24 @@ const getYearData = async (req, res) => {
 };
 
 const hardProblems = async (req, res) => {
-  let hardProb = await Problems.find({ difficulty: "Hard" }).sort({
+  const user_id = req.user._id;
+  let hardProb = await Problems.find({ difficulty: "Hard", user_id }).sort({
     createdAt: -1,
   });
   res.status(200).json(hardProb);
 };
 
 const mediumProblems = async (req, res) => {
-  let mediumProb = await Problems.find({ difficulty: "Medium" }).sort({
+  const user_id = req.user._id;
+  let mediumProb = await Problems.find({ difficulty: "Medium", user_id }).sort({
     createdAt: -1,
   });
   res.status(200).json(mediumProb);
 };
 
 const easyProblems = async (req, res) => {
-  let easyProb = await Problems.find({ difficulty: "Easy" }).sort({
+  const user_id = req.user._id;
+  let easyProb = await Problems.find({ difficulty: "Easy", user_id }).sort({
     createdAt: -1,
   });
   res.status(200).json(easyProb);
@@ -141,6 +152,7 @@ const easyProblems = async (req, res) => {
 
 const monthProblems = async (req, res) => {
   let startDate = new Date();
+  const user_id = req.user._id;
   startDate.setDate(startDate.getDate() - 30);
   const endDate = new Date(
     startDate.getFullYear(),
@@ -156,7 +168,7 @@ const monthProblems = async (req, res) => {
   ) {
     let dateStr = date.toLocaleDateString();
     try {
-      const problems = await Problems.find({ date: dateStr });
+      const problems = await Problems.find({ date: dateStr, user_id });
       data = [...problems, ...data];
     } catch (err) {
       console.log(err);
@@ -168,6 +180,7 @@ const monthProblems = async (req, res) => {
 
 const weekProblems = async (req, res) => {
   let startDate = new Date();
+  const user_id = req.user._id;
   startDate.setDate(startDate.getDate() - 6);
   const endDate = new Date(
     startDate.getFullYear(),
@@ -183,7 +196,7 @@ const weekProblems = async (req, res) => {
   ) {
     let dateStr = date.toLocaleDateString();
     try {
-      const problems = await Problems.find({ date: dateStr });
+      const problems = await Problems.find({ date: dateStr, user_id });
       data = [...problems, ...data];
     } catch (err) {
       console.log(err);
