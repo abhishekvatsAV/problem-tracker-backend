@@ -15,7 +15,7 @@ const findByDate = async (req, res) => {
 
 const problemCreate = async (req, res) => {
   const { date, name, link, platform, difficulty, topic, helpUsed } = req.body;
-  console.log("reqBody : ", req.body);
+  // console.log("reqBody : ", req.body);
 
   try {
     const user_id = req.user._id;
@@ -30,9 +30,9 @@ const problemCreate = async (req, res) => {
       user_id,
     });
     if (problem) {
-      console.log("first");
+      // console.log("first");
     } else {
-      console.log("second");
+      // console.log("second");
     }
     res.status(200).json({ problem });
   } catch (error) {
@@ -66,7 +66,7 @@ const notHelpProblems = async (req, res) => {
 
 const deleteProblem = async (req, res) => {
   const { link } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const problem = await Problems.deleteOne({ link: link });
     res.status(200).json("Problem is Deleted Successfully.");
@@ -81,9 +81,9 @@ const deleteAlreadyExist = async (req, res) => {
   try {
     const problem = await Problems.findOneAndDelete({ link: link });
     if (problem) {
-      console.log(`Problem with this ${link} get deleted Successfully.`);
+      // console.log(`Problem with this ${link} get deleted Successfully.`);
     } else {
-      console.log("Problem Not Found of this link : " + link);
+      // console.log("Problem Not Found of this link : " + link);
     }
 
     res.status(200).json("Problem is resolved.");
@@ -101,8 +101,8 @@ const getYearData = async (req, res) => {
     startDate.getMonth(),
     startDate.getDate()
   );
-  console.log("strdate,enddate", startDate, endDate);
-  const data = [];
+  // console.log("strdate,enddate", startDate, endDate);
+  let data = [];
   for (
     let date = startDate;
     date <= endDate;
@@ -112,9 +112,19 @@ const getYearData = async (req, res) => {
     // console.log("first : ", date, dateStr);
     try {
       const user_id = req.user._id;
-      const problems = await Problems.find({ date: dateStr, user_id });
       let dateParts = dateStr.split("/");
-      dateStr = [dateParts[1], dateParts[0], dateParts[2]].join("/");
+      dateStr = [
+        dateParts[1].padStart(2, "0"),
+        dateParts[0].padStart(2, "0"),
+        dateParts[2],
+      ].join("/");
+      // console.log("ffffff:  ", dateStr);
+      const problems = await Problems.find({ date: dateStr, user_id });
+      dateStr = [
+        dateParts[0].padStart(2, "0"),
+        dateParts[1].padStart(2, "0"),
+        dateParts[2],
+      ].join("/");
       let storeDate = new Date(dateStr);
       // storeDate.setDate(storeDate.getDate() + 1);
       data.push({ date: storeDate, count: problems.length });
@@ -123,6 +133,7 @@ const getYearData = async (req, res) => {
     }
     // console.log("second : ", date);
   }
+  // console.log("dataNow: ", data);
   res.status(200).json(data);
 };
 
@@ -159,7 +170,7 @@ const monthProblems = async (req, res) => {
     startDate.getMonth() + 1,
     startDate.getDate()
   );
-  console.log("strdate,enddate", startDate, endDate);
+  // console.log("strdate,enddate", startDate, endDate);
   let data = [];
   for (
     let date = startDate;
@@ -173,7 +184,7 @@ const monthProblems = async (req, res) => {
     } catch (err) {
       console.log(err);
     }
-    console.log("data : ", data);
+    // console.log("data : ", data);
   }
   res.status(200).json(data);
 };
@@ -187,7 +198,7 @@ const weekProblems = async (req, res) => {
     startDate.getMonth(),
     startDate.getDate() + 6
   );
-  console.log("strdate,enddate", startDate, endDate);
+  // console.log("strdate,enddate", startDate, endDate);
   let data = [];
   for (
     let date = startDate;
@@ -201,7 +212,7 @@ const weekProblems = async (req, res) => {
     } catch (err) {
       console.log(err);
     }
-    console.log("data : ", data);
+    // console.log("data : ", data);
   }
   res.status(200).json(data);
 };
