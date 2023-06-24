@@ -19,15 +19,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// TODO: add routes here
 app.use("/user", userRoutes);
 app.use("/problems", problemsRoutes);
 
-// routes
-app.get("/", function (req, res) {
-  // res.send("hi");
-  // res.sendFile(__dirname + "/index.html");
-});
 
 const PORT = process.env.PORT || 4000;
 mongoose.set("strictQuery", false);

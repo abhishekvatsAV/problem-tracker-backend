@@ -40,6 +40,4 @@ const problemSchema = new Schema(
   { timestamps: true }
 );
 
-// every problem has a unique link
-
 module.exports = mongoose.model("Problem", problemSchema);
