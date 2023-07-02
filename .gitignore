@@ -128,3 +128,72 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Next.js
+.next/
+out/
+/.vercel/
+
+# Compiled files
+*.pem
+*.p12
+*.key
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Editor and IDE files
+.vscode/
+*.code-workspace
+*.sublime-*
+*.swp
+*.swo
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.shrinkwrap.yaml
+
+# Tailwind CSS
+.tailwind/
+postcss.config.js
+
+# TypeScript
+*.tsbuildinfo
+*.ts~
+*.tsx~
+
+# Build output
+dist/
+build/
+out/
+
+# Visual Studio Code specific files
+.vscode/
+.settings/
+*.vsix
+*.code-workspace
+
+# macOS hidden files
+.AppleDouble
+.LSOverride
